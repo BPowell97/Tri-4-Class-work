@@ -7,6 +7,7 @@ public class TweenTrial : MonoBehaviour
 {
 
     public GameObject player;
+    public Camera cam;
 
     // Update is called once per frame
     private void Update()
@@ -21,7 +22,13 @@ public class TweenTrial : MonoBehaviour
         Color newColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         player.transform.DOJump(newPos, 2f, 2, 1f); // 2 in the middle equals number of jumps
         //player.transform.DOMove(newPos, 2f); // Player movement use
+        player.transform.DOJump(newPos, 2f, 2, 1f);
         player.transform.DORotate(Vector3.up * 90, 2f, RotateMode.LocalAxisAdd).SetEase(Ease.InOutExpo);
         player.GetComponent<Renderer>().material.DOColor(newColor, 1f);
+    }
+
+    void Shake()
+    {
+        cam.DOShakePosition(1, 3, 10, 90);
     }
 }
