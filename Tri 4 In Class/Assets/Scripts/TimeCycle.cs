@@ -5,12 +5,20 @@ using DG.Tweening;
 
 public class TimeCycle : MonoBehaviour
 {
-    public enum TimeOfDay { Morning,Daytime,Afternoon,Night}
+    public enum TimeOfDay { MorningTime,DayTime,EveningTime,NightTime}
     
 
     public TimeOfDay timeOfDay;
     Light lightSource;
     public float transitionTime = 2f;
+    public bool RandomTime;
+
+    [Header("Timers")]
+    public int currentTime;
+    public float timeModifier = 1;
+    bool stopped;
+
+
 
     [Header("Sky Colours")]
     public Color morningColor;
@@ -21,8 +29,11 @@ public class TimeCycle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeOfDay = TimeOfDay.Morning;
+        timeOfDay = TimeOfDay.MorningTime;
         lightSource = GetComponent<Light>();
+        currentTime = 0;
+        StartCoroutine(TickToc());
+        //Debug.Log(Utilities.EnumLength(timeOfDay));
     }
 
     // Update is called once per frame
@@ -30,30 +41,59 @@ public class TimeCycle : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
             ChangeTime();
+        if (Input.GetKeyDown(KeyCode.R))
+            ChangeTime();
     }
 
     void ChangeTime()
     {
-        if ((int)timeOfDay == System.Enum.GetValues(typeof(TimeOfDay)).Length -1)
+
+        if (RandomTime)
+        {
+            timeOfDay = Utilities.RandomEnumValue<TimeOfDay>();
+        }
+        else
+        {
+            //if 
+        }
+
+        if ((int)timeOfDay == Utilities.EnumLength(timeOfDay))
             timeOfDay = 0;
         else
             timeOfDay++;
 
+        Debug.Log(Utilities.EnumToString(timeOfDay));
+
+
         switch (timeOfDay)
         {
-            case TimeOfDay.Morning:
+            case TimeOfDay.MorningTime:
                 lightSource.DOColor(morningColor, transitionTime);
                 break;
-            case TimeOfDay.Daytime:
+            case TimeOfDay.DayTime:
                 lightSource.DOColor(daytimeColor, transitionTime);
                 break;
-            case TimeOfDay.Afternoon:
+            case TimeOfDay.EveningTime:
                 lightSource.DOColor(afternoonColor, transitionTime);
                 break;
-            case TimeOfDay.Night:
+            case TimeOfDay.NightTime:
                 lightSource.DOColor(nightColor, transitionTime);
                 break;
         }
+    }
+
+
+    IEnumerator TickToc()
+    {
+        while (!stopped)
+        {
+            yield return new WaitForSeconds(timeModifier);
+            if (currentTime == 23)
+                currentTime = 0;
+            else
+                currentTime++;
+        }
+       
     }
 
 }
