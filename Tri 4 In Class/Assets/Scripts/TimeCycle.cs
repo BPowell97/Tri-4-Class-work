@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+public enum TimeOfDay { MorningTime, DayTime, EveningTime, NightTime }
+
 public class TimeCycle : MonoBehaviour
 {
-    public enum TimeOfDay { MorningTime,DayTime,EveningTime,NightTime}
+    //public enum TimeOfDay { MorningTime,DayTime,EveningTime,NightTime}
     
 
     public TimeOfDay timeOfDay;
@@ -37,24 +39,24 @@ public class TimeCycle : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
             ChangeTime();
         if (Input.GetKeyDown(KeyCode.R))
             ChangeTime();
-    }
+    }*/
 
     void ChangeTime()
     {
-
-        if (RandomTime)
+        #region Old time stuff
+        /*if (RandomTime)
         {
             timeOfDay = Utilities.RandomEnumValue<TimeOfDay>();
         }
         else
         {
-            //if 
+            //if ((int )) 
         }
 
         if ((int)timeOfDay == Utilities.EnumLength(timeOfDay))
@@ -62,8 +64,10 @@ public class TimeCycle : MonoBehaviour
         else
             timeOfDay++;
 
-        Debug.Log(Utilities.EnumToString(timeOfDay));
+        Debug.Log(Utilities.EnumToString(timeOfDay));*/
+        #endregion
 
+        timeOfDay = GetTimeOfDay();
 
         switch (timeOfDay)
         {
@@ -80,6 +84,45 @@ public class TimeCycle : MonoBehaviour
                 lightSource.DOColor(nightColor, transitionTime);
                 break;
         }
+
+        GameEvents.ReportOnTimeOfDayChanged(timeOfDay);
+    }
+
+    TimeOfDay GetTimeOfDay()
+    {
+        switch (currentTime)
+        {
+            case 0: 
+            case 1:
+            case 2:  
+            case 3:
+                return TimeOfDay.NightTime;
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                return TimeOfDay.MorningTime;
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+                return TimeOfDay.DayTime;
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+                return TimeOfDay.NightTime;
+            default:
+                return TimeOfDay.NightTime;
+
+
+        }
     }
 
 
@@ -92,6 +135,8 @@ public class TimeCycle : MonoBehaviour
                 currentTime = 0;
             else
                 currentTime++;
+
+            ChangeTime();
         }
        
     }
