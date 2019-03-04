@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
 
     public TextMeshProUGUI timeOfDayText;
+    
 
     private void OnEnable()
     {
@@ -22,5 +23,7 @@ public class UIManager : MonoBehaviour
     {
         timeOfDayText.text = Utilities.EnumToString(timeOfDay);
     }
+
+
 
 }

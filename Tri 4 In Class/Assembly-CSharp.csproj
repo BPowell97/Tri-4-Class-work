@@ -64,6 +64,8 @@
     <Compile Include="Assets\Scripts\GameEvents.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\TimeCycle.cs" />
+    <Compile Include="Assets\Scripts\Timer.cs" />
+    <Compile Include="Assets\Scripts\TimerListener.cs" />
     <Compile Include="Assets\Scripts\TweenTrial.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\Utilities.cs" />
